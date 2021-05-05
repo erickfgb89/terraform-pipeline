@@ -7,6 +7,7 @@ class TerraformPlanCommand implements TerraformCommand, Resettable {
     private suffixes = []
     private arguments = []
     private String directory
+    private boolean globalDirectoryOption = false
     private String errorFile
     private Closure variablePattern
     private Closure mapPattern
@@ -30,6 +31,10 @@ class TerraformPlanCommand implements TerraformCommand, Resettable {
     public TerraformPlanCommand withSuffix(String suffix) {
         suffixes << suffix
         return this
+    }
+
+    public TerraformInitCommand withGlobalDirectoryOption() {
+        globalDirectoryOption = true
     }
 
     public TerraformPlanCommand withDirectory(String directory) {
@@ -81,12 +86,16 @@ class TerraformPlanCommand implements TerraformCommand, Resettable {
         def pieces = []
         pieces = pieces + prefixes
         pieces << terraformBinary
+        // for version >=0.14.0
+        if(directory && globalDirectoryOption) {
+            pieces << "-chdir=${directory}"
+        }
         pieces << command
         if (!input) {
             pieces << "-input=false"
         }
         pieces += arguments
-        if (directory) {
+        if (directory && !globalDirectoryrOption) {
             pieces << directory
         }
 

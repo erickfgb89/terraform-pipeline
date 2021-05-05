@@ -8,6 +8,7 @@ class TerraformInitCommand implements TerraformCommand, Resettable {
     private backendConfigs = []
     private boolean doBackend = true
     private String directory
+    private boolean globalDirectoryOption = false
     private static plugins = []
     private appliedPlugins = []
 
@@ -30,6 +31,10 @@ class TerraformInitCommand implements TerraformCommand, Resettable {
         return this
     }
 
+    public TerraformInitCommand withGlobalDirectoryOption() {
+        globalDirectoryOption = true
+    }
+
     public TerraformInitCommand withDirectory(String directory) {
         this.directory = directory
         return this
@@ -50,6 +55,10 @@ class TerraformInitCommand implements TerraformCommand, Resettable {
         def pieces = []
         pieces += prefixes
         pieces << terraformBinary
+        // for version >=0.14.0
+        if(directory && globalDirectoryOption) {
+            pieces << "-chdir=${directory}"
+        }
         pieces << command
         if (!input) {
             pieces << "-input=false"
@@ -61,7 +70,7 @@ class TerraformInitCommand implements TerraformCommand, Resettable {
         } else {
             pieces << "-backend=false"
         }
-        if (directory) {
+        if (directory && !globalDirectoryOption) {
             pieces << directory
         }
 
