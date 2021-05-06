@@ -73,13 +73,14 @@ class TerraformInitCommand implements TerraformCommand, Resettable {
         }
         if (directory && !globalDirectoryOption) {
             pieces << directory
-            pieces << '; echo ${globalDirectoryOption}'
         }
 
         pieces += suffixes
 
         // REMOVE
-        pieces << "; echo ${globalDirectoryOption}"
+        if( doBackend ) {
+            pieces << "${globalDirectoryOption}"
+        }
 
         return pieces.join(' ')
     }
