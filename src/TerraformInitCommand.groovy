@@ -52,7 +52,6 @@ class TerraformInitCommand implements TerraformCommand, Resettable {
     }
 
     public String toString() {
-        println("---${globalDirectoryOption}---")
         applyPlugins()
         def pieces = []
         pieces += prefixes
@@ -77,6 +76,9 @@ class TerraformInitCommand implements TerraformCommand, Resettable {
         }
 
         pieces += suffixes
+
+        // REMOVE
+        pieces << "# ---${globalDirectoryOption}---"
 
         return pieces.join(' ')
     }
