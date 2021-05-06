@@ -52,6 +52,7 @@ class TerraformInitCommand implements TerraformCommand, Resettable {
     }
 
     public String toString() {
+        echo "---${globalDirectoryOption}---"
         applyPlugins()
         def pieces = []
         pieces += prefixes
