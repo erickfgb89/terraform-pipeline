@@ -33,6 +33,7 @@ class TerraformInitCommand implements TerraformCommand, Resettable {
 
     public TerraformInitCommand withGlobalDirectoryOption() {
         globalDirectoryOption = true
+        return this
     }
 
     public TerraformInitCommand withDirectory(String directory) {

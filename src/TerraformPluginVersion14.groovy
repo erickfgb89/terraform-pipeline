@@ -22,4 +22,12 @@ class TerraformPluginVersion14 extends TerraformPluginVersion12 {
         command.withGlobalDirectoryOption()
         super.apply(command)
     }
+
+    @Override
+    public static TerraformInitCommand initCommandForValidate() {
+        return TerraformInitCommand
+            .instanceFor('validate')
+            .withGlobalDirectoryOption()
+            .withoutBackend()
+    }
 }
