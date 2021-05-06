@@ -1,6 +1,7 @@
 class TerraformPluginVersion14 extends TerraformPluginVersion12 {
     @Override
     public void apply(TerraformInitCommand command) {
+        sh 'global dir'
         command.withGlobalDirectoryOption()
         super.apply(command)
     }
